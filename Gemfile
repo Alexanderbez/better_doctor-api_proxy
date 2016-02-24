@@ -7,22 +7,25 @@ gem 'grape'
 gem 'grape-active_model_serializers'
 gem 'hashie-forbidden_attributes'
 
+# HTTP client
+gem 'rest-client', '~> 1.8'
+
 # Logging
-gem 'logging'
+gem 'logging', '~> 2.0'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-gem 'rack-cors'
+gem 'rack-cors', '~> 0.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'byebug', '~> 8.0'
 end
 
 group :development do
   gem 'listen', '~> 3.0.5'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'spring', '~> 1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
