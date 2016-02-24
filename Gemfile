@@ -1,9 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', github: "rails/rails"
+# Rails / Grape
+gem 'rails', github: 'rails/rails'
+gem 'grape'
+gem 'grape-active_model_serializers'
+gem 'hashie-forbidden_attributes'
 
-# Use Puma as the HTTP server
-gem 'puma'
+# Logging
+gem 'logging'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
