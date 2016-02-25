@@ -2,9 +2,11 @@ module BetterDoctor
   module ApiHelpers
     extend Grape::API::Helpers
 
-    # ----------------------------------------------------------------------#
-    #                              API Helpers                              #
-    # ----------------------------------------------------------------------#
+    LOG = Logging.logger[self]
+
+    # ----------------------------------------------------------------------- #
+    #                               API Helpers                               #
+    # ----------------------------------------------------------------------- #
 
     # Returns the request parameters that are filtered against the allowed
     # request parameters.
@@ -12,33 +14,51 @@ module BetterDoctor
     # @param options [Hash]
     # @return [Hashie::Mash]
     def permitted_params(options = {})
-      options = { include_missing: false }.merge(options)
+      options = {
+        include_missing: false
+      }.merge(options)
 
       declared(params, options)
     end
 
-    # BetterDoctor external API version to proxy API mapping.
-    # 
-    # @return [String]
-    def proxy_api_version
-      @proxy_api_version ||= '2015-09-22'
-    end
-
-    # Constructs a base URL path object representing the BetterDoctor public
-    # API.
+    # Fetches the BetterDoctor public API key from the headers.
     #
-    # @return [URI::HTTPS]
-    def base_path
-      @base_path ||= URI::HTTPS.build(
-        host: 'api.betterdoctor.com',
-        path: "/#{proxy_api_version}"
-      )
+    # @return [Object]
+    def api_key
+      headers['X-Api-Key']
     end
 
-    # Constructs a HTTP resource to be used to proxy all requests to the
-    # BetterDoctor public API.
-    def rest_resource
-      @rest_resource ||= RestClient::Resource.new(base_path.to_s)
+    # Verifies the presence of an API key header value. If no header is passed,
+    # then a 401 unauthorized response is returned.
+    #
+    # @return [Object]
+    def verify_header
+      if api_key.blank?
+        LOG.info 'Invalid API key passed'
+        error!('Unauthorized', 401, 'X-Error-Detail' => 'Invalid API key.')
+      end
+    end
+
+    # Proxies a request from the client to the BetterDoctor public API. Any
+    # failed request is handled by returning the proxied request HTTP status
+    # code and message. A successful response will simply have the body
+    # returned.
+    #
+    # @yield
+    def proxy_request(&block)
+      begin
+        yield
+      rescue RestClient::Exception => ex
+        LOG.error 'Failed to proxy request'
+
+        response    = JSON.parse(ex.response)
+        status_code = response['meta']['http_status_code']
+
+        LOG.error "Status: #{status_code}"
+        LOG.error "response: #{response}"
+
+        error!(response, status_code)
+      end
     end
 
   end
