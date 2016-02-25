@@ -43,8 +43,6 @@ module BetterDoctor
             "maximum value."
         end
         get '/search' do
-          verify_header
-
           # Get query params and add user key param
           query_params = permitted_params
           query_params.user_key = api_key

@@ -32,7 +32,7 @@ module BetterDoctor
     # then a 401 unauthorized response is returned.
     #
     # @return [Object]
-    def verify_header
+    def verify_api_keyheader!
       if api_key.blank?
         LOG.info 'Invalid API key passed'
         error!('Unauthorized', 401, 'X-Error-Detail' => 'Invalid API key.')

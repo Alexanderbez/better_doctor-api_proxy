@@ -9,6 +9,10 @@ module BetterDoctor
       helpers BetterDoctor::V1::ApiHelpers
       version 'v1', using: :path
 
+      before do
+        verify_api_keyheader!
+      end
+
       # Mount v1 routes
       mount BetterDoctor::V1::Doctor
     end
