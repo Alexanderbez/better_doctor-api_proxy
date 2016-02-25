@@ -27,6 +27,7 @@ module BetterDoctor
     config.api_only = true
 
     # Logging
-    config.logger = Logging.logger[self]
+    config.logger  = Logging.logger[self]
+    RestClient.log = Logging.logger['RestClient']
   end
 end
