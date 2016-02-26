@@ -34,7 +34,7 @@ module BetterDoctor
     # @return [Object]
     def verify_api_keyheader!
       if api_key.blank?
-        LOG.info 'Invalid API key passed'
+        LOG.warn 'Invalid API key passed'
         error!('Unauthorized', 401, 'X-Error-Detail' => 'Invalid API key.')
       end
     end

@@ -6,10 +6,14 @@ module BetterDoctor
     # ----------------------------------------------------------------------- #
 
     def self.call(message, backtrace, options, env)
-      {
+      err = {
         :response_type => 'error',
         :response => message
-      }.to_json
+      }
+
+      err[:backtrace] = backtrace if Rails.env.development?
+
+      err.to_json
     end
 
   end
