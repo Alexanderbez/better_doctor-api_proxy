@@ -9,6 +9,10 @@ gem 'hashie-forbidden_attributes'
 
 # HTTP client
 gem 'rest-client', '~> 1.8'
+gem 'rest-client-components', '~> 1.4'
+
+# Rack components
+gem 'rack-cache', '~> 1.5'
 
 # Logging
 gem 'logging', '~> 2.0'
