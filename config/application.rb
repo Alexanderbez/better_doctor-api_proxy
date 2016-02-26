@@ -6,6 +6,7 @@ require 'active_job/railtie'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'rails/test_unit/railtie'
+require 'restclient/components'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -29,5 +30,11 @@ module BetterDoctor
     # Logging
     config.logger  = Logging.logger[self]
     RestClient.log = Logging.logger['RestClient']
+
+    # Enable HTTP cache
+    RestClient.enable Rack::Cache,
+      :verbose => true,
+      :default_ttl => 60 * 30,
+      :private_headers => ['Authorization', 'Cookie', 'X-Api-Key']
   end
 end
