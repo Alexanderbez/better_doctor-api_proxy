@@ -31,4 +31,7 @@ RSpec.configure do |config|
   config.include Requests::JsonHelpers, type: :request
   config.infer_spec_type_from_file_location!
   config.order = :random
+  config.color = true
+  config.tty = true
+  config.formatter = :progress
 end
