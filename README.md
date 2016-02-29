@@ -54,3 +54,9 @@ $ curl -X GET -H "X-Api-Key: YOUR_API_KEY" http://localhost:3000/api/v1/doctors/
 The default parameter values are the same as the BetterDoctor public API.
 
 ## Tests
+
+To run integration tests:
+
+```shell
+$ bundle exec bin/rake spec
+```
