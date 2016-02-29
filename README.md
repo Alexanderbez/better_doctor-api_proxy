@@ -58,5 +58,5 @@ The default parameter values are the same as the BetterDoctor public API.
 To run integration tests:
 
 ```shell
-$ bundle exec bin/rake spec
+$ API_KEY="REDACTED" bundle exec bin/rake spec
 ```
